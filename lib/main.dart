@@ -9,10 +9,9 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CounterCubit>(
+    return BlocProvider(
       create: (context) => CounterCubit(),
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -41,7 +40,10 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(
+          widget.title,
+          style: Theme.of(context).textTheme.headlineLarge,
+        ),
       ),
       body: Center(
         child: Column(
@@ -50,11 +52,14 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
+            const SizedBox(
+              height: 12,
+            ),
             BlocConsumer<CounterCubit, CounterState>(
               builder: (context, state) {
                 return Text(
-                  textAlign: TextAlign.center,
                   '${state.counterValue}',
+                  style: Theme.of(context).textTheme.headlineLarge,
                 );
               },
               listener: (context, state) {
@@ -62,14 +67,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   case true:
                     ScaffoldMessenger.of(context).clearSnackBars();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Incremented')),
-                    );
+                        const SnackBar(content: Text('Incremented')));
                     break;
                   case false:
                     ScaffoldMessenger.of(context).clearSnackBars();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Decremented')),
-                    );
+                        const SnackBar(content: Text('Decremented')));
                     break;
                 }
               },
@@ -81,21 +84,22 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 FloatingActionButton(
-                  tooltip: 'Decrement',
+                  tooltip: 'DECREMENT',
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).decrement();
                   },
                   child: const Icon(Icons.remove),
                 ),
                 FloatingActionButton(
-                  tooltip: 'Increment',
+                  tooltip: 'INCREMENT',
                   onPressed: () {
                     BlocProvider.of<CounterCubit>(context).increment();
                   },
                   child: const Icon(Icons.add),
                 ),
+
               ],
-            ),
+            )
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
